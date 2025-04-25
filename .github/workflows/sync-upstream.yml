@@ -30,8 +30,8 @@ jobs:
           git checkout main
           git merge upstream/main --allow-unrelated-histories -X theirs --no-ff -m "Merge from upstream, keep theirs"
 
-      - name: Push changes to origin
+      - name: Push changes to the same repository
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for pushing to the same repository
         run: |
           git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git main
