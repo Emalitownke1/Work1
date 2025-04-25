@@ -25,10 +25,10 @@ jobs:
           git remote add upstream https://github.com/Emalitownke1/Bwm-trekker.git
           git fetch upstream
 
-      - name: Merge upstream changes (favor upstream changes in conflicts)
+      - name: Merge upstream changes (allow unrelated histories)
         run: |
           git checkout main
-          git merge upstream/main -X theirs --no-ff -m "Merge from upstream, keep theirs"
+          git merge upstream/main --allow-unrelated-histories -X theirs --no-ff -m "Merge from upstream, keep theirs"
 
       - name: Push changes to origin
         env:
