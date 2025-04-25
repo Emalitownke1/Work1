@@ -1,12 +1,10 @@
-
-
 const { adams } = require("../Ibrahim/adams");
 const {getAllSudoNumbers,isSudoTableNotEmpty} = require("../lib/sudo")
 const conf = require("../config");
 
 adams({ nomCom: "owner", categorie: "General", reaction: "🚘" }, async (dest, zk, commandeOptions) => {
     const { ms , mybotpic } = commandeOptions;
-    
+
   const thsudo = await isSudoTableNotEmpty()
 
   if (thsudo) {
@@ -15,7 +13,7 @@ adams({ nomCom: "owner", categorie: "General", reaction: "🚘" }, async (dest, 
 - 🌟 @${conf.NUMERO_OWNER}
 
 ------ *other sudos* -----\n`
-     
+
  let sudos = await getAllSudoNumbers()
 
    for ( const sudo of sudos) {
@@ -63,7 +61,7 @@ adams({ nomCom: "dev", categorie: "General", reaction: "🚘" }, async (dest, zk
       // Ajoute d'autres développeurs ici avec leur nom et numéro
     ];
 
-    let message = "WELCOME TO BWM XMD HELP CENTER! ASK FOR HELP FROM ANY OF THE DEVELOPERS BELOW:\n\n";
+    let message = "WELCOME TO TREKKER-MD HELP CENTER! ASK FOR HELP FROM ANY OF THE DEVELOPERS BELOW:\n\n";
     for (const dev of devs) {
       message += `----------------\n• ${dev.nom} : https://wa.me/${dev.numero}\n`;
     }
@@ -90,13 +88,13 @@ else if (lien.match(/\.(jpeg|png|jpg)$/i)) {
 else {
     repondre(lien)
     repondre("link error");
-    
+
 }
 });
 
 adams({ nomCom: "support", categorie: "General" }, async (dest, zk, commandeOptions) => {
   const { ms, repondre, auteurMessage, } = commandeOptions; 
- 
+
   repondre("THANK YOU FOR CHOOSING BMW, HERE ARE OUR SUPPORTIVE LINKS\n\n ☉ CHANNEL LINK IS HERE ☉ \n\n❒⁠⁠⁠⁠https://whatsapp.com/channel/0029VaZuGSxEawdxZK9CzM0Y\n\n ☉YOUTUBE LINK IS HERE ☉\n\n❒⁠⁠⁠⁠[https://www.youtube.com/@ibrahimaitech] \n\n\n𝑪𝒓𝒆𝒂𝒕𝒆𝒅 𝒃𝒚 𝑰𝒃𝒓𝒂𝒉𝒊𝒎 𝑨𝒅𝒂𝒎𝒔") 
   await zk.sendMessage(auteurMessage,{text : `THANK YOU FOR CHOOSING BWM XMD MAKE SURE YOU FOLLOW THESE LINKS. `},{quoted :ms})
 

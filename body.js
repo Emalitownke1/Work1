@@ -80,7 +80,7 @@ async function handleCommand(command, timeout = COMMAND_TIMEOUT) {
 
 // Health check endpoints for scale-to-zero
 app.get('/', (req, res) => {
-  res.status(200).send('BWM XMD Bot Status: Online');
+  res.status(200).send('TREKKER-MD Bot Status: Online');
 });
 
 app.get('/health', (req, res) => {
