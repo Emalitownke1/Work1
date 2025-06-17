@@ -12,6 +12,7 @@ const configPath = path.join(__dirname, 'config.env');
 const sessionPath = process.env.SESSION_ID === undefined ? configPath : process.env.SESSION_ID;
 
 module.exports = {
+  BWM_XMD: process.env.BWM_XMD || 'https://github.com/Ibrahim-Adams/BWM-XMD',
   SESSION_ID: process.env.SESSION_ID || '',
   PREFIX: process.env.PREFIX || '.',
   PUBLIC_MODE: process.env.PUBLIC_MODE || 'yes',
