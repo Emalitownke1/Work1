@@ -91,7 +91,7 @@ adams({
                 externalAdReply: {
                     title: "🤖 BWM-XMD Bot Status Report",
                     body: "Real-time bot statistics and system information",
-                    thumbnailUrl: mybotpic(),
+                    thumbnailUrl: mybotpic || "https://files.catbox.moe/sd49da.jpg",
                     sourceUrl: "https://github.com/Ibrahim-Adams/BWM-XMD",
                     mediaType: 1,
                     renderLargerThumbnail: true
