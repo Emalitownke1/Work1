@@ -228,16 +228,32 @@ async function autoStartInform(zk) {
     if (shouldAutoStart && !isInformRunning) {
         console.log('🚀 Auto-starting inform command based on INFORM environment variable...');
         
-        // Simulate the command execution
-        const fakeCommandeOptions = {
-            repondre: (msg) => console.log(`📨 Auto-Inform: ${msg}`),
+        // Create proper command options for auto-start
+        const autoCommandeOptions = {
+            repondre: async (msg) => {
+                console.log(`📨 Auto-Inform: ${msg}`);
+                // Also send to owner if available
+                const ownerNumber = process.env.OWNER_NUMBER;
+                if (ownerNumber && zk) {
+                    try {
+                        const formattedOwner = ownerNumber.includes('@') ? ownerNumber : `${ownerNumber}@s.whatsapp.net`;
+                        await zk.sendMessage(formattedOwner, { text: `🤖 Auto-Inform: ${msg}` });
+                    } catch (err) {
+                        console.log('Could not send auto-inform update to owner:', err.message);
+                    }
+                }
+            },
             prefixe: process.env.PREFIX || '.',
             nomAuteurMessage: 'Auto-System',
             mybotpic: process.env.BOT_IMAGE || "https://files.catbox.moe/sd49da.jpg"
         };
         
-        // Execute the inform logic
-        await executeInformLogic('auto', zk, fakeCommandeOptions);
+        // Execute the inform logic with proper destination (owner's number or 'auto')
+        const destination = process.env.OWNER_NUMBER ? 
+            (process.env.OWNER_NUMBER.includes('@') ? process.env.OWNER_NUMBER : `${process.env.OWNER_NUMBER}@s.whatsapp.net`) : 
+            'auto';
+            
+        await executeInformLogic(destination, zk, autoCommandeOptions);
     }
 }
 
