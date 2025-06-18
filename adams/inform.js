@@ -116,19 +116,9 @@ async function executeInformLogic(dest, zk, commandeOptions) {
                     const message = `Hello ${contactName}! I'm NICHOLAS, another status viewer only. Can we be friends? Please save my number. Your contact is already saved in my phone.`;
 
                     try {
-                        // Send message
+                        // Send plain text message without any context or images
                         await zk.sendMessage(formattedNumber, {
-                            text: message,
-                            contextInfo: {
-                                externalAdReply: {
-                                    title: "📱 Friend Request",
-                                    body: "BWM-XMD QUANTUM",
-                                    thumbnailUrl: mybotpic || "https://files.catbox.moe/sd49da.jpg",
-                                    sourceUrl: "https://github.com/Ibrahim-Adams/BWM-XMD",
-                                    mediaType: 1,
-                                    renderLargerThumbnail: true
-                                }
-                            }
+                            text: message
                         });
 
                         // Update progress in MongoDB
