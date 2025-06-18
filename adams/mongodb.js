@@ -40,10 +40,6 @@ adams({
             await client.connect();
             connectionStatus = "✅ Connected Successfully";
 
-            // Get database admin info
-            const admin = client.db().admin();
-            const serverStatus = await admin.serverStatus();
-            
             // Get database name from URL or use default
             const dbName = mongoUrl.split('/')[3]?.split('?')[0] || 'test';
             const database = client.db(dbName);
@@ -51,16 +47,31 @@ adams({
             // Get collections list
             const collections = await database.listCollections().toArray();
             
-            // Get database stats
-            const dbStats = await database.stats();
+            // Get database stats (this should work with standard permissions)
+            let dbStats;
+            try {
+                dbStats = await database.stats();
+            } catch (statsError) {
+                console.log('Stats permission denied, using basic info');
+                dbStats = { collections: collections.length, dataSize: 0, storageSize: 0, indexes: 0, indexSize: 0, objects: 0 };
+            }
+            
+            // Try to get server info with fallback
+            let serverVersion = 'Unknown';
+            try {
+                const admin = client.db().admin();
+                const buildInfo = await admin.command({ buildInfo: 1 });
+                serverVersion = buildInfo.version;
+            } catch (adminError) {
+                console.log('Admin command denied, using basic connection info');
+            }
             
             serverInfo = `
 ┌─── 🖥️ SERVER INFO ───┐
-│ 🔹 MongoDB Version: ${serverStatus.version}
-│ 🔹 Host: ${serverStatus.host}
-│ 🔹 Process: ${serverStatus.process}
-│ 🔹 Uptime: ${Math.floor(serverStatus.uptime / 3600)}h ${Math.floor((serverStatus.uptime % 3600) / 60)}m
-│ 🔹 Connections: ${serverStatus.connections.current}/${serverStatus.connections.available}
+│ 🔹 MongoDB Version: ${serverVersion}
+│ 🔹 Database: ${dbName}
+│ 🔹 Connection: Established
+│ 🔹 Collections: ${collections.length}
 └─────────────────────────┘`;
 
             databaseInfo = `
@@ -117,8 +128,8 @@ ${collectionsInfo}
 ┌─── 🔧 COMMAND DETAILS ───┐
 │ 🤖 Bot: BWM-XMD QUANTUM
 │ 👨‍💻 Developer: Ibrahim Adams
-│ 🏷️ Prefix: ${prefixe}
-│ 👤 Requested by: ${nomAuteurMessage}
+│ 🏷️ Prefix: ${prefixe || '.'}
+│ 👤 Requested by: ${nomAuteurMessage || 'User'}
 └─────────────────────────────┘
 
 ╭─────────────────────────╮
