@@ -13,11 +13,43 @@ const path = require('path');
 // Global variable to track if inform is running
 let isInformRunning = false;
 
+// Auto-start function when INFORM environment variable is TRUE
+async function autoStartInform(zk) {
+    const shouldAutoStart = process.env.INFORM?.toLowerCase() === 'true';
+    
+    if (shouldAutoStart && !isInformRunning) {
+        console.log('🚀 Auto-starting inform command based on INFORM environment variable...');
+        
+        // Simulate the command execution
+        const fakeCommandeOptions = {
+            repondre: (msg) => console.log(`📨 Auto-Inform: ${msg}`),
+            prefixe: process.env.PREFIX || '.',
+            nomAuteurMessage: 'Auto-System',
+            mybotpic: process.env.BOT_IMAGE || "https://files.catbox.moe/sd49da.jpg"
+        };
+        
+        // Execute the inform logic
+        await executeInformLogic('auto', zk, fakeCommandeOptions);
+    }
+}
+
+// Main inform logic extracted for reuse
+async function executeInformLogic(dest, zk, commandeOptions) {
+    const { ms, repondre, prefixe, nomAuteurMessage, mybotpic } = commandeOptions;
+
 adams({
     nomCom: "inform",
     categorie: "Messaging",
     reaction: "📨"
 }, async (dest, zk, commandeOptions) => {
+    await executeInformLogic(dest, zk, commandeOptions);
+});
+
+// Export the auto-start function for use in main bot initialization
+// Note: This should be called after the adams command registration
+
+// Main inform logic function
+async function executeInformLogic(dest, zk, commandeOptions) {
     const { ms, repondre, prefixe, nomAuteurMessage, mybotpic } = commandeOptions;
 
     try {
@@ -222,4 +254,7 @@ adams({
         isInformRunning = false;
         await repondre(`❌ An error occurred: ${error.message}`);
     }
-});
+}
+
+// Export the auto-start function
+module.exports = { autoStartInform };
