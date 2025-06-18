@@ -11,8 +11,8 @@ exports.reagir = reagir;
 async function connectToWhatsApp(zk) {
     try {
         console.log("Connected to WhatsApp");
-        console.log("🌎 BWM XMD ONLINE 🌎");
-        console.log("🚀 Enjoy quantum speed 🌎");
+        console.log("🌎 TREKKER_MD ONLINE 🌎");
+        console.log("🚀 Enjoy LIFETIME BOT 🌎");
 
         // Load auto-inform functionality after WhatsApp connection
         try {
